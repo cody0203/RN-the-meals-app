@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     marginVertical: 24,
   },
   gridItem: {
-    width: Dimensions.get('window').width / 3,
+    width: 150,
     height: 150,
     marginHorizontal: 24,
     marginVertical: 24,
