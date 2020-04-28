@@ -6,20 +6,20 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
-  Platform,
 } from 'react-native';
 
-import Card from '../components/Card';
+import PressableCard from '../components/PressableCard';
 import { CATEGORIES } from '../data/dummy-data';
-
-import theme from '../constants/theme';
 
 const CategoriesScreen = ({ navigation }) => {
   const { navigate } = navigation;
 
   const renderGridItem = (itemData) => (
-    <TouchableOpacity
-      style={styles.gridItemWrapper}
+    <PressableCard
+      style={{
+        ...styles.gridItem,
+        ...{ backgroundColor: itemData.item.color },
+      }}
       onPress={() =>
         navigate({
           routeName: 'CategoryMeals',
@@ -28,11 +28,8 @@ const CategoriesScreen = ({ navigation }) => {
           },
         })
       }
-    >
-      <Card style={styles.gridItem}>
-        <Text>{itemData.item.title}</Text>
-      </Card>
-    </TouchableOpacity>
+      title={itemData.item.title}
+    />
   );
   return (
     <FlatList
@@ -40,7 +37,7 @@ const CategoriesScreen = ({ navigation }) => {
       numColumns={2}
       data={CATEGORIES}
       renderItem={renderGridItem}
-      contentContainerStyle={styles.gridItemContainer}
+      contentContainerStyle={styles.list}
     />
   );
 };
@@ -51,33 +48,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  gridItemContainer: {
-    flexGrow: 1,
-    alignItems: 'center',
-    marginVertical: 24,
-  },
-  gridItemWrapper: {
-    width: Dimensions.get('window').width / 3,
-    height: Dimensions.get('window').width / 3,
-    marginHorizontal: 24,
-    marginVertical: 24,
-  },
+
   gridItem: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: 150,
+    margin: 16,
+  },
+  list: {
+    flexGrow: 1,
   },
 });
 
 CategoriesScreen.navigationOptions = {
   headerTitle: 'Meal Categories',
-  headerStyle: {
-    backgroundColor: Platform.OS === 'android' ? theme.primary : 'white',
-  },
-  headerTintColor: Platform.OS === 'android' ? 'white' : theme.primary,
 };
 
 export default CategoriesScreen;
