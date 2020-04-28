@@ -1,8 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
+import { CATEGORIES } from '../data/dummy-data';
+
 const CategoryMeal = ({ navigation }) => {
-  const { navigate, pop } = navigation;
+  const { navigate, pop, getParam } = navigation;
+  const categoryId = getParam('categoryId');
+
+  const selectedCategory = 
+
+  console.log(categoryId);
+
   return (
     <View style={styles.screen}>
       <Text>Category Meal</Text>
