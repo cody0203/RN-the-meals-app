@@ -1,14 +1,9 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, FlatList, Platform } from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import PressableCard from '../components/PressableCard';
+import CustomHeaderButton from '../components/CustomHeaderButton';
 import { CATEGORIES } from '../data/dummy-data';
 
 const CategoriesScreen = ({ navigation }) => {
@@ -58,8 +53,19 @@ const styles = StyleSheet.create({
   },
 });
 
-CategoriesScreen.navigationOptions = {
-  headerTitle: 'Meal Categories',
+CategoriesScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: 'Meal Categories',
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+          title="Menu"
+          iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+          onPress={() => navData.navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
 
 export default CategoriesScreen;

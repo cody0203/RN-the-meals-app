@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   mealItem: {
     flex: 1,
     height: 200,
-    margin: 10,
+    marginVertical: 10,
     borderRadius: 10,
     overflow: 'hidden',
   },

@@ -3,7 +3,11 @@ import { Text, StyleSheet } from 'react-native';
 
 const BodyText = ({ children, style }) => {
   return (
-    <Text numberOfLines={2} style={{ ...styles.bodyText, ...style }}>
+    <Text
+      numberOfLines={2}
+      ellipsizeMode="middle"
+      style={{ ...styles.bodyText, ...style }}
+    >
       {children}
     </Text>
   );

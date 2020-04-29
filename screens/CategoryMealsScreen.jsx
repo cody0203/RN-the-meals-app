@@ -3,6 +3,7 @@ import { find } from 'lodash';
 import { View, Text, StyleSheet, Button, FlatList } from 'react-native';
 
 import MealItem from '../components/MealItem';
+import MealList from '../components/MealList';
 import { CATEGORIES, MEALS } from '../data/dummy-data';
 
 const CategoryMealsScreen = ({ navigation }) => {
@@ -11,31 +12,7 @@ const CategoryMealsScreen = ({ navigation }) => {
 
   const meals = MEALS.filter((meal) => meal.categoryIds.includes(categoryId));
 
-  const renderMealsList = ({ item }) => {
-    return (
-      <MealItem
-        item={item}
-        onPress={() =>
-          navigate({
-            routeName: 'MealDetail',
-            params: {
-              mealId: item.id,
-            },
-          })
-        }
-      />
-    );
-  };
-
-  return (
-    <View style={styles.screen}>
-      <FlatList
-        data={meals}
-        keyExtractor={(item, index) => item.id}
-        renderItem={renderMealsList}
-      />
-    </View>
-  );
+  return <MealList data={meals} navigate={navigate} />;
 };
 
 CategoryMealsScreen.navigationOptions = (navigationData) => {
@@ -48,10 +25,4 @@ CategoryMealsScreen.navigationOptions = (navigationData) => {
   };
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-});
 export default CategoryMealsScreen;
