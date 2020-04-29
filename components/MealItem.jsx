@@ -36,8 +36,8 @@ const MealItem = ({ item, onPress }) => {
 
           <View style={styles.mealRow}>
             <BodyText>{item.duration}m</BodyText>
-            <BodyText>{item.complexity}</BodyText>
-            <BodyText>{item.affordability}</BodyText>
+            <BodyText style={styles.capText}>{item.complexity}</BodyText>
+            <BodyText style={styles.capText}>{item.affordability}</BodyText>
           </View>
         </View>
       </TouchableComponent>
@@ -76,6 +76,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ddd',
     padding: 10,
+  },
+  capText: {
+    textTransform: 'uppercase',
   },
 });
 

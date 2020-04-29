@@ -11,11 +11,18 @@ const CategoryMealsScreen = ({ navigation }) => {
 
   const meals = MEALS.filter((meal) => meal.categoryIds.includes(categoryId));
 
-  const renderMealsList = (itemData) => {
+  const renderMealsList = ({ item }) => {
     return (
       <MealItem
-        item={itemData.item}
-        onPress={() => navigate({ routeName: 'MealDetail' })}
+        item={item}
+        onPress={() =>
+          navigate({
+            routeName: 'MealDetail',
+            params: {
+              mealId: item.id,
+            },
+          })
+        }
       />
     );
   };

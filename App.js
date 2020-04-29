@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import * as Font from 'expo-font';
+import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
 import { enableScreens } from 'react-native-screens';
 
@@ -8,26 +8,18 @@ import MealsNavigator from './navigation/MeailsNavigator';
 
 enableScreens();
 
-const fetchFonts = () =>
-  Font.loadAsync({
+export default function App() {
+  const [fontsLoaded] = useFonts({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+    ionicons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
   });
 
-export default function App() {
-  const [dataLoaded, setDataLoaded] = useState(false);
-
-  if (!dataLoaded) {
-    return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => setDataLoaded(true)}
-        onError={(err) => console.log(err)}
-      />
-    );
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return <MealsNavigator />;
   }
-
-  return <MealsNavigator />;
 }
 
 const styles = StyleSheet.create({});
