@@ -1,0 +1,3 @@
+export const FILTER_MEALS = 'FILTER_MEALS';
+
+export const FAVORITE_A_MEAL = 'FAVORITE_A_MEAL';

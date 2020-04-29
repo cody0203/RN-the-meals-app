@@ -1,13 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { get, isEmpty } from 'lodash';
+import { View, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector } from 'react-redux';
 
 import CustomHeaderButton from '../components/CustomHeaderButton';
+import MealList from '../components/MealList';
+import Title from '../components/Title';
 
-const FavoritesScreen = () => {
+const FavoritesScreen = ({ navigation }) => {
+  const { navigate } = navigation;
+  const { favoriteMeals } = useSelector((store) => get(store, 'mealsReducer'));
+
   return (
     <View style={styles.screen}>
-      <Text>Favorites Screen</Text>
+      {isEmpty(favoriteMeals) ? (
+        <View style={styles.emptyData}>
+          <Title>No favorite meals found. Start adding some!</Title>
+        </View>
+      ) : (
+        <MealList data={favoriteMeals} navigate={navigate} />
+      )}
     </View>
   );
 };
@@ -15,8 +28,12 @@ const FavoritesScreen = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+  },
+  emptyData: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

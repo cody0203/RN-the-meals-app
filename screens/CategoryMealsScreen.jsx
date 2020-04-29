@@ -1,19 +1,41 @@
 import React from 'react';
-import { find } from 'lodash';
-import { View, Text, StyleSheet, Button, FlatList } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { find, get, isEmpty } from 'lodash';
 
-import MealItem from '../components/MealItem';
 import MealList from '../components/MealList';
-import { CATEGORIES, MEALS } from '../data/dummy-data';
+import { CATEGORIES } from '../data/dummy-data';
+import { useSelector } from 'react-redux';
+import Title from '../components/Title';
 
 const CategoryMealsScreen = ({ navigation }) => {
   const { navigate, getParam } = navigation;
   const categoryId = getParam('categoryId');
 
-  const meals = MEALS.filter((meal) => meal.categoryIds.includes(categoryId));
+  const availableMeals = useSelector((store) =>
+    get(store, 'mealsReducer.filteredMeals')
+  );
+  const meals = availableMeals.filter((meal) =>
+    meal.categoryIds.includes(categoryId)
+  );
+
+  if (isEmpty(meals)) {
+    return (
+      <View style={styles.notFound}>
+        <Title>No meals found, maybe check your filters?</Title>
+      </View>
+    );
+  }
 
   return <MealList data={meals} navigate={navigate} />;
 };
+
+const styles = StyleSheet.create({
+  notFound: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 CategoryMealsScreen.navigationOptions = (navigationData) => {
   const categoryId = navigationData.navigation.getParam('categoryId');

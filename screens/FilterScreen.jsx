@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, Switch, Dimensions } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useDispatch } from 'react-redux';
 
 import CustomHeaderButton from '../components/CustomHeaderButton';
 import FilterSwitch from '../components/FilterSwitch';
 import Title from '../components/Title';
 
+import * as actions from '../store/meals/meals.actions';
+
 const FilterScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const { setParams } = navigation;
   const [filter, setFilter] = useState({
     glutenFree: false,
@@ -15,9 +20,13 @@ const FilterScreen = ({ navigation }) => {
     vegetarian: false,
   });
 
+  const filterMealHandler = useCallback(() => {
+    dispatch(actions.filterMeals(filter));
+  }, [filter, dispatch]);
+
   useEffect(() => {
-    setParams({ filter });
-  }, [filter]);
+    setParams({ filterMealHandler: filterMealHandler });
+  }, [filterMealHandler]);
 
   const changeFilterHandler = (fieldName) => {
     setFilter((filters) => {
@@ -70,6 +79,8 @@ const styles = StyleSheet.create({
 });
 
 FilterScreen.navigationOptions = (navData) => {
+  const filterMealHandler = navData.navigation.getParam('filterMealHandler');
+
   return {
     headerTitle: 'Filter Meals',
     headerLeft: () => (
@@ -83,12 +94,7 @@ FilterScreen.navigationOptions = (navData) => {
     ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="Save"
-          onPress={() => {
-            console.log(navData.navigation.getParam('filter'));
-          }}
-        />
+        <Item title="Save" iconName="ios-save" onPress={filterMealHandler} />
       </HeaderButtons>
     ),
   };

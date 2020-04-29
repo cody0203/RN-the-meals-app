@@ -3,8 +3,10 @@ import { StyleSheet, View } from 'react-native';
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
 import { enableScreens } from 'react-native-screens';
+import { Provider } from 'react-redux';
 
 import MealsNavigator from './navigation/MeailsNavigator';
+import store from './store/store';
 
 enableScreens();
 
@@ -18,7 +20,11 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
-    return <MealsNavigator />;
+    return (
+      <Provider store={store}>
+        <MealsNavigator />
+      </Provider>
+    );
   }
 }
 
