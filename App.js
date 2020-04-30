@@ -5,7 +5,7 @@ import { AppLoading } from 'expo';
 import { enableScreens } from 'react-native-screens';
 import { Provider } from 'react-redux';
 
-import MealsNavigator from './navigation/MeailsNavigator';
+import AppNavigator from './navigation/AppNavigator';
 import store from './store/store';
 
 enableScreens();
@@ -22,7 +22,7 @@ export default function App() {
   } else {
     return (
       <Provider store={store}>
-        <MealsNavigator />
+        <AppNavigator />
       </Provider>
     );
   }

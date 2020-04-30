@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
 });
 
-FavoritesScreen.navigationOptions = (navData) => {
+export const FavoritesScreenOptions = (navData) => {
   return {
     headerTitle: 'Your Favorite Meals',
     headerLeft: () => (

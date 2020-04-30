@@ -12,7 +12,7 @@ import * as actions from '../store/meals/meals.actions';
 const FilterScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const { setParams } = navigation;
+  const { setOptions } = navigation;
   const [filter, setFilter] = useState({
     glutenFree: false,
     lactoseFree: false,
@@ -25,7 +25,22 @@ const FilterScreen = ({ navigation }) => {
   }, [filter, dispatch]);
 
   useEffect(() => {
-    setParams({ filterMealHandler: filterMealHandler });
+    setOptions({
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title="Menu"
+            iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+            onPress={() => navigation.toggleDrawer()}
+          />
+        </HeaderButtons>
+      ),
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item title="Save" iconName="ios-save" onPress={filterMealHandler} />
+        </HeaderButtons>
+      ),
+    });
   }, [filterMealHandler]);
 
   const changeFilterHandler = (fieldName) => {
@@ -78,25 +93,9 @@ const styles = StyleSheet.create({
   },
 });
 
-FilterScreen.navigationOptions = (navData) => {
-  const filterMealHandler = navData.navigation.getParam('filterMealHandler');
-
+export const FilterScreenOptions = (navData) => {
   return {
     headerTitle: 'Filter Meals',
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="Menu"
-          iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-          onPress={() => navData.navigation.toggleDrawer()}
-        />
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item title="Save" iconName="ios-save" onPress={filterMealHandler} />
-      </HeaderButtons>
-    ),
   };
 };
 

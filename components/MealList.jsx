@@ -9,11 +9,8 @@ const MealList = ({ data, navigate }) => {
       <MealItem
         item={item}
         onPress={() =>
-          navigate({
-            routeName: 'MealDetail',
-            params: {
-              mealId: item.id,
-            },
+          navigate('MealDetail', {
+            mealId: item.id,
           })
         }
       />

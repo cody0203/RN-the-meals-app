@@ -16,11 +16,8 @@ const CategoriesScreen = ({ navigation }) => {
         ...{ backgroundColor: itemData.item.color },
       }}
       onPress={() =>
-        navigate({
-          routeName: 'CategoryMeals',
-          params: {
-            categoryId: itemData.item.id,
-          },
+        navigate('CategoryMeals', {
+          categoryId: itemData.item.id,
         })
       }
       title={itemData.item.title}
@@ -53,7 +50,7 @@ const styles = StyleSheet.create({
   },
 });
 
-CategoriesScreen.navigationOptions = (navData) => {
+export const CategoriesScreenOptions = (navData) => {
   return {
     headerTitle: 'Meal Categories',
     headerLeft: () => (

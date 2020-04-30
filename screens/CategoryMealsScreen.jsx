@@ -7,9 +7,9 @@ import { CATEGORIES } from '../data/dummy-data';
 import { useSelector } from 'react-redux';
 import Title from '../components/Title';
 
-const CategoryMealsScreen = ({ navigation }) => {
-  const { navigate, getParam } = navigation;
-  const categoryId = getParam('categoryId');
+const CategoryMealsScreen = ({ navigation, route }) => {
+  const { navigate } = navigation;
+  const { categoryId } = route.params;
 
   const availableMeals = useSelector((store) =>
     get(store, 'mealsReducer.filteredMeals')
@@ -37,9 +37,9 @@ const styles = StyleSheet.create({
   },
 });
 
-CategoryMealsScreen.navigationOptions = (navigationData) => {
-  const categoryId = navigationData.navigation.getParam('categoryId');
-
+export const CategoryMealsScreenOptions = (navigationData) => {
+  const { categoryId } = navigationData.route.params;
+  console.log(categoryId);
   const selectedCategory = find(CATEGORIES, { id: categoryId });
 
   return {

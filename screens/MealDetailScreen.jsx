@@ -12,10 +12,10 @@ import Title from '../components/Title';
 
 import * as actions from '../store/meals/meals.actions';
 
-const MealDetailScreen = ({ navigation }) => {
+const MealDetailScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const { getParam, setParams } = navigation;
-  const mealId = getParam('mealId');
+  const { setOptions } = navigation;
+  const { mealId } = route.params;
 
   const { meals } = useSelector((store) => get(store, 'mealsReducer'));
   const { favoriteMeals } = useSelector((store) => get(store, 'mealsReducer'));
@@ -28,12 +28,20 @@ const MealDetailScreen = ({ navigation }) => {
   }, [dispatch, mealId]);
 
   useEffect(() => {
-    setParams({ isFav: isFavoriteMeal });
-  }, [isFavoriteMeal]);
-
-  useEffect(() => {
-    setParams({ toggleFav: toggleFavoriteMeal });
-  }, [toggleFavoriteMeal]);
+    setOptions({
+      headerRight: () => {
+        return (
+          <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item
+              title="Favorite"
+              iconName={`${isFavoriteMeal ? 'ios-star' : 'ios-star-outline'}`}
+              onPress={toggleFavoriteMeal}
+            />
+          </HeaderButtons>
+        );
+      },
+    });
+  }, [isFavoriteMeal, toggleFavoriteMeal]);
 
   const renderMealDetails = ({ item }) => {
     return (
@@ -127,27 +135,13 @@ const styles = StyleSheet.create({
   },
 });
 
-MealDetailScreen.navigationOptions = (navigationData) => {
-  const mealId = navigationData.navigation.getParam('mealId');
-  const toggleFavoriteMeal = navigationData.navigation.getParam('toggleFav');
-  const isFav = navigationData.navigation.getParam('isFav');
+export const MealDetailScreenOptions = (navigationData) => {
+  const { mealId } = navigationData.route.params;
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
   return {
     headerTitle: selectedMeal.title,
-
-    headerRight: () => {
-      return (
-        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-          <Item
-            title="Favorite"
-            iconName={`${isFav ? 'ios-star' : 'ios-star-outline'}`}
-            onPress={toggleFavoriteMeal}
-          />
-        </HeaderButtons>
-      );
-    },
   };
 };
 
